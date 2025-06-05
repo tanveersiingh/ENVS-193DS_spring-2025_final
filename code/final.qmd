@@ -17,6 +17,8 @@ library(here) # file organization
 library(flextable) # creating tables
 library(janitor) # cleaning data frames
 library(officer) # table formatting
+library(dplyr)
+library(lubridate)
 # read in data
 sst <- read_csv("./data/SST_update2023.csv")
 ```
@@ -36,4 +38,19 @@ The one-way ANOVA shows that at least one source differs in average nitrogen loa
 Biological narrative: Average nitrogen load (kg year$^{-1}$) differs among sources, with urban land contributing notably higher nitrogen levels compared to grasslands, suggesting source-specific impacts on nitrogen pollution. Statistical summary: We rejected the null hypothesis that there is no difference in average nitrogen load (kg year$^{-1}$) among sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands). We found a small/medium/large effect size ($\eta^2$ = effect size) using a one-way ANOVA (F(df$_1$, df$_2$) = F-statistic, p = 0.02, $\alpha$ = significance level). On average, Source A has a higher/lower nitrogen load than Source B (difference between groups, 95% CI: \[lower, upper\] kg year$^{-1}$).
 
 # Problem 2. Data visualization
+
+```{r}
+sst_clean <- sst |> # start with df
+  mutate( # use mutate the create year and month from date
+    year = year(date), # create year column
+    month = month(date, label = TRUE, abbr = TRUE) # create month column with the abbreviations 
+  ) |>
+  filter(year >= 2018 & year <= 2023) |> # selecting only years 2018 - 2023
+  mutate(year = as.factor(year)) |> # change year column to factor
+  group_by(year, month) |> # grouping year and month for summary calculations
+  summarize(mean_monthly_sst = round(mean(temp, na.rm = TRUE), 1)) # summarize and round mean_monthly_sst
+
+print(slice_sample(sst_clean, n = 5)) # slice and print 5 random rows
+print(str(sst_clean)) # print the structure of sst_clean
+```
 
