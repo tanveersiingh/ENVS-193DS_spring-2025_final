@@ -39,6 +39,8 @@ Biological narrative: Average nitrogen load (kg year$^{-1}$) differs among sourc
 
 # Problem 2. Data visualization
 
+## a. Cleaning and summarizing
+
 ```{r}
 sst_clean <- sst |> # start with df
   mutate( # use mutate the create year and month from date
@@ -53,4 +55,30 @@ sst_clean <- sst |> # start with df
 print(slice_sample(sst_clean, n = 5)) # slice and print 5 random rows
 print(str(sst_clean)) # print the structure of sst_clean
 ```
+
+## b. Visualize the data
+
+```{r}
+ggplot(sst_clean,
+       aes(x = month,
+           y = mean_monthly_sst,
+           color = year,
+           group = year)) +
+  geom_jitter() +
+  geom_line() +
+  ylim(NA, 20) +
+  labs(
+    x = "Month",
+    y = "Mean monthly sea surface temperature (°C)",
+    color = "Year") +
+  theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white"),
+    legend.position = c(0.10, 0.70))
+```
+
+
 
