@@ -81,4 +81,20 @@ ggplot(sst_clean,
 ```
 
 
+# Problem 3. Data analysis
+
+## a. Response variable
+
+In this experiment, nest box occupancy was recorded as a binary variable: 1 indicated a nest box was occupied by the species, and 0 indicated it was unoccupied.
+
+
+## b. Purpose of study
+
+The main difference is that Swift Parrots are the target species for the study and only use the nest boxes during the breeding season. Common Starlings and Tree Martins are non target competitors who more consistently occupy the nest boxes over time.
+
+## c. Difference in “seasons”
+
+The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2019 (after three years of deployment of nest boxes).
+
+## d. Table of models
 
