@@ -1,0 +1,31 @@
+---
+title: "final"
+format: html
+editor: visual
+---
+
+# Github link
+
+[Github Repository](https://github.com/tanveersiingh/ENVS-193DS_spring-2025_final.git)
+
+# Set up
+
+```{r}
+# load packages
+
+# read in data
+```
+
+# Problem 1. Research writing
+
+## a. Transparent statistical methods
+
+In part 1, they used a Pearson correlation test.In part 2, they used a one way ANOVA test.
+
+## b. More information needed
+
+The one-way ANOVA shows that at least one source differs in average nitrogen load, but not which one(s). I recommend adding a Tukey's HSD post hoc test to determine which specific source pairs differ significantly. Additionally, although p = 0.02 indicates statistical significance, it does not show the magnitude of those differences. To address this, I suggest calculating Cohen’s d to quantify the effect size between each pair of sources, indicating whether differences are small, medium, or large.
+
+## c. Suggestions for rewriting
+
+Biological narrative: Average nitrogen load (kg year$^{-1}$) differs among sources, with urban land contributing notably higher nitrogen levels compared to grasslands, suggesting source-specific impacts on nitrogen pollution. Statistical summary: We rejected the null hypothesis that there is no difference in average nitrogen load (kg year$^{-1}$) among sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands). We found a small/medium/large effect size ($\eta^2$ = effect size) using a one-way ANOVA (F(df$_1$, df$_2$) = F-statistic, p = 0.02, $\alpha$ = significance level). On average, Source A has a higher/lower nitrogen load than Source B (difference between groups, 95% CI: \[lower, upper\] kg year$^{-1}$).
