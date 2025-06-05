@@ -12,8 +12,13 @@ editor: visual
 
 ```{r}
 # load packages
-
+library(tidyverse) # general use
+library(here) # file organization
+library(flextable) # creating tables
+library(janitor) # cleaning data frames
+library(officer) # table formatting
 # read in data
+sst <- read_csv("./data/SST_update2023.csv")
 ```
 
 # Problem 1. Research writing
@@ -29,3 +34,6 @@ The one-way ANOVA shows that at least one source differs in average nitrogen loa
 ## c. Suggestions for rewriting
 
 Biological narrative: Average nitrogen load (kg year$^{-1}$) differs among sources, with urban land contributing notably higher nitrogen levels compared to grasslands, suggesting source-specific impacts on nitrogen pollution. Statistical summary: We rejected the null hypothesis that there is no difference in average nitrogen load (kg year$^{-1}$) among sources (urban land, atmospheric deposition, fertilizer, wastewater treatment, and grasslands). We found a small/medium/large effect size ($\eta^2$ = effect size) using a one-way ANOVA (F(df$_1$, df$_2$) = F-statistic, p = 0.02, $\alpha$ = significance level). On average, Source A has a higher/lower nitrogen load than Source B (difference between groups, 95% CI: \[lower, upper\] kg year$^{-1}$).
+
+# Problem 2. Data visualization
+
