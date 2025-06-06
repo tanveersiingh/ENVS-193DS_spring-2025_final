@@ -19,6 +19,8 @@ library(janitor) # cleaning data frames
 library(officer) # table formatting
 library(dplyr)
 library(lubridate)
+library(DHARMa)
+library(MuMIn)
 # read in data
 sst <- read_csv("./data/SST_update2023.csv")
 nest_boxes <- read_csv("./data/occdist.csv")
@@ -92,6 +94,12 @@ ggplot(sst_clean,
 
 # Problem 3. Data analysis
 
+```{r}
+nest_boxes_clean <- clean_names(nest_boxes) |>
+  dplyr::select(box_occupant, season, edge_distance, sp, cs, e, tm)
+```
+
+
 ## a. Response variable
 
 In this experiment, nest box occupancy was recorded as a binary variable: 1 indicated a nest box was occupied by the species, and 0 indicated it was unoccupied.
@@ -106,4 +114,53 @@ The main difference is that Swift Parrots are the target species for the study a
 The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2019 (after three years of deployment of nest boxes).
 
 ## d. Table of models
+
+| Model number | box occupancy | season | distance to forest edge | model description                 |      
+|:------------:|:---:|:---------------::-------:  |-----------------------------      |  
+| 0            |     |                            | null model                        |
+| 1            |  X  |             X              | a saturated model.                |
+| 2            |  X  |                            | Season only model                 |
+| 3            |     |             X              | Distance to forest edge only model|
+
+
+## e. Run the models
+
+model0 <- glm(
+  sp ~ 1, # formula
+  data = nest_boxes_clean, # data frame
+  family = "binomial"
+)
+
+model1 <- glm(
+  sp ~ season + edge_distance, # formula
+  data = nest_boxes_clean, # data frame
+  family = "binomial"
+)
+
+model2 <- glm(
+  sp ~ season, # formula
+  data = nest_boxes_clean, # data frame
+  family = "binomial"
+)
+
+model3 <- glm(
+  sp ~ edge_distance, # formula
+  data = nest_boxes_clean, # data frame
+  family = "binomial"
+)
+
+## f. Check the diagnostics
+
+par(mfrow = c(2,2))
+plot(model0)
+plot(model1) # residuals look ok
+plot(model2)
+plot(model3)
+
+## g. Select the best model
+
+AICc(model1, # best model
+     model2,
+     model3) |>
+     arrange(AICc)
 
