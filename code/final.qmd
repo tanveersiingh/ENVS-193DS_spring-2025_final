@@ -62,10 +62,18 @@ print(str(sst_clean)) # print the structure of sst_clean
 ggplot(sst_clean,
        aes(x = month,
            y = mean_monthly_sst,
-           color = year,
+           color = factor(year),
            group = year)) +
-  geom_jitter() +
+  geom_point() +
   geom_line() +
+  scale_color_manual(
+    values = c(
+      "2018" = "mistyrose",
+      "2019" = "lightcoral",
+      "2020" = "indianred",
+      "2021" = "firebrick",
+      "2022" = "red",
+      "2023" = "darkred")) +
   ylim(NA, 20) +
   labs(
     x = "Month",
