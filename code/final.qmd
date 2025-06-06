@@ -21,6 +21,7 @@ library(dplyr)
 library(lubridate)
 # read in data
 sst <- read_csv("./data/SST_update2023.csv")
+nest_boxes <- read_csv("./data/occdist.csv")
 ```
 
 # Problem 1. Research writing
@@ -62,7 +63,7 @@ print(str(sst_clean)) # print the structure of sst_clean
 ggplot(sst_clean,
        aes(x = month,
            y = mean_monthly_sst,
-           color = factor(year),
+           color = year,
            group = year)) +
   geom_point() +
   geom_line() +
