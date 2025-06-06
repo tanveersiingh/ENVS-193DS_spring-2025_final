@@ -21,6 +21,7 @@ library(dplyr)
 library(lubridate)
 library(DHARMa)
 library(MuMIn)
+library(ggeffects)
 # read in data
 sst <- read_csv("./data/SST_update2023.csv")
 nest_boxes <- read_csv("./data/occdist.csv")
@@ -125,6 +126,7 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 
 ## e. Run the models
 
+```{r}
 model0 <- glm(
   sp ~ 1, # formula
   data = nest_boxes_clean, # data frame
@@ -146,21 +148,55 @@ model2 <- glm(
 model3 <- glm(
   sp ~ edge_distance, # formula
   data = nest_boxes_clean, # data frame
-  family = "binomial"
-)
+  family = "binomial")
+```
 
 ## f. Check the diagnostics
 
-par(mfrow = c(2,2))
-plot(model0)
-plot(model1) # residuals look ok
-plot(model2)
-plot(model3)
+```{r}
+plot(
+  simulateResiduals(model0))
+plot(
+  simulateResiduals(model1))
+plot(
+  simulateResiduals(model2))
+plot(
+  simulateResiduals(model3))
+```
 
 ## g. Select the best model
 
+```{r}
 AICc(model1, # best model
      model2,
      model3) |>
      arrange(AICc)
+```
+     
+The best model, as determined by Akaike’s Information Criterion (AIC), was the model that included both season and distance to forest edge as predictors. This model had the lowest AIC value, indicating the best balance between model fit and complexity for explaining Swift Parrot nest box occupancy.
+     
+## h. Visualize the model predictions
+
+```{r}
+
+```
+
+## i. Write a caption for your figure
+
+## j. Calculate model predictions
+
+```{r}
+model1_predictions <- ggpredict(
+  model1,
+  terms = c("edge_distance [0,900]", "season"))
+
+print(model1_predictions)
+```
+
+## k. Interpret your results
+
+# Problem 4. Affective and exploratory visualizations
+
+## a. Comparing visualizations
+
 
