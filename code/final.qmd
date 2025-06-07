@@ -199,4 +199,12 @@ print(model1_predictions)
 
 ## a. Comparing visualizations
 
+I changed the topic of my personal data project after homework 2, so the data does not represent the same experiment. I will use the data visualization I made in homework 3 to compare against my affective visualization. 
 
+In the exportatory visualization, I used a box plot to show to pages per minute that I read at each location. In my affective visualization, I was able to show more variables such as total time reading, total pages read, number of distractions, and comprehension.
+
+The only similarity I see within both of my visualizations are the locations. I was not able to represent variables from my affective visualization in the boxplot. Similarly, I did not know how to represent pages per minute from my affective visualization.
+
+Between both my visualizations, I see that I read more efficiently when on my balcony. The box plot showed it with the higher median and in my affective visualization with the consistent thickness, height, and color of the book.
+
+During week 9 workshop, Ellie and Eliana gave me great advice on my affective visualization. They liked my idea, but said that the jar of marbles was a misleading representation of my experiment. They said it would make more sense if I used a bookshelf and placed books instead of marbles. This works better because when you initially see the visualization, you immediately think of something related to reading, unlike the jar of marbles. 
