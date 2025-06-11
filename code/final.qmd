@@ -92,19 +92,18 @@ ggplot(sst_clean,
     legend.position = c(0.10, 0.70))
 ```
 
-
 # Problem 3. Data analysis
 
 ```{r}
-nest_boxes_clean <- clean_names(nest_boxes) |>
-  dplyr::select(box_occupant, season, edge_distance, sp, cs, e, tm)
+nest_boxes_clean <- nest_boxes |>
+  clean_names() |>
+  select(box_occupant, season, edge_distance, sp, cs, e, tm) |>
+  mutate(season = as.factor(season))
 ```
-
 
 ## a. Response variable
 
 In this experiment, nest box occupancy was recorded as a binary variable: 1 indicated a nest box was occupied by the species, and 0 indicated it was unoccupied.
-
 
 ## b. Purpose of study
 
@@ -116,13 +115,10 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 
 ## d. Table of models
 
-| Model number | box occupancy | season | distance to forest edge | model description                 |      
-|:------------:|:---:|:---------------::-------:  |-----------------------------      |  
-| 0            |     |                            | null model                        |
-| 1            |  X  |             X              | a saturated model.                |
-| 2            |  X  |                            | Season only model                 |
-| 3            |     |             X              | Distance to forest edge only model|
+| Model number \| box occupancy \| season \| distance to forest edge \| model description \|
 
+\|:------------:\|:---:\|:---------------::-------: \|----------------------------- \|\
+\| 0 \| \| \| null model \| \| 1 \| X \| X \| a saturated model. \| \| 2 \| X \| \| Season only model \| \| 3 \| \| X \| Distance to forest edge only model\|
 
 ## e. Run the models
 
@@ -172,12 +168,30 @@ AICc(model1, # best model
      model3) |>
      arrange(AICc)
 ```
-     
+
 The best model, as determined by Akaike’s Information Criterion (AIC), was the model that included both season and distance to forest edge as predictors. This model had the lowest AIC value, indicating the best balance between model fit and complexity for explaining Swift Parrot nest box occupancy.
-     
+
 ## h. Visualize the model predictions
 
 ```{r}
+prediction <- ggpredict(model1, terms = c("edge_distance [0:1100 by=10]", "season"))
+
+ggplot(prediction,
+       aes(x = x, y = predicted, color = group)) +
+  geom_line(linewidth = 1) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group), alpha = 0.35) +
+  geom_jitter(data = nest_boxes_clean, aes(x = edge_distance, y = sp, color = season),
+              width = 15, height = 0.5, alpha = 0.4, inherit.aes = FALSE) +
+  ylim(0, 1) +
+  labs(
+    x = "Distance from Forest Edge (m)",
+    y = "Probability of Swift Parrot Occupancy",
+    color = "Season",
+    fill = "Season") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) +
+  scale_color_manual(values = c("2016" = "lightgreen", "2019" = "seagreen")) +
+  scale_fill_manual(values = c("2016" = "lightgreen", "2019" = "seagreen"))
 
 ```
 
@@ -199,7 +213,7 @@ print(model1_predictions)
 
 ## a. Comparing visualizations
 
-I changed the topic of my personal data project after homework 2, so the data does not represent the same experiment. I will use the data visualization I made in homework 3 to compare against my affective visualization. 
+I changed the topic of my personal data project after homework 2, so the data does not represent the same experiment. I will use the data visualization I made in homework 3 to compare against my affective visualization.
 
 In the exportatory visualization, I used a box plot to show to pages per minute that I read at each location. In my affective visualization, I was able to show more variables such as total time reading, total pages read, number of distractions, and comprehension.
 
@@ -207,4 +221,4 @@ The only similarity I see within both of my visualizations are the locations. I 
 
 Between both my visualizations, I see that I read more efficiently when on my balcony. The box plot showed it with the higher median and in my affective visualization with the consistent thickness, height, and color of the book.
 
-During week 9 workshop, Ellie and Eliana gave me great advice on my affective visualization. They liked my idea, but said that the jar of marbles was a misleading representation of my experiment. They said it would make more sense if I used a bookshelf and placed books instead of marbles. This works better because when you initially see the visualization, you immediately think of something related to reading, unlike the jar of marbles. 
+During week 9 workshop, Ellie and Eliana gave me great advice on my affective visualization. They liked my idea, but said that the jar of marbles was a misleading representation of my experiment. They said it would make more sense if I used a bookshelf and placed books instead of marbles. This works better because when you initially see the visualization, you immediately think of something related to reading, unlike the jar of marbles.
