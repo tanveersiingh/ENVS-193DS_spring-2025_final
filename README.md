@@ -3,11 +3,11 @@ ENVS 193DS Final
 
 Spring 2025
 
-General information
+## General information
 
 This repository contains the ENVS 193DS final. The assignment explores research writing, analysis and visualization on mean monthly sea surface temperature and nest box occupancy by Swift Parrots, and affective visualization reflection
 
-Packages
+## Packages
 
 Make sure you have these installed!
 
@@ -22,7 +22,7 @@ library(DHARMa)
 library(MuMIn)
 library(ggeffects)
 
-File structure:
+## File structure:
 
 .
 ├── ENVS-193DS_spring-2025.Rproj
@@ -34,6 +34,6 @@ File structure:
     └── occdist.csv
 All code is in the code folder.
 
-Rendered output
+## Rendered output
 
 The rendered key is [here](https://tanveersiingh.github.io/ENVS-193DS_spring-2025_final/code/final.html)
