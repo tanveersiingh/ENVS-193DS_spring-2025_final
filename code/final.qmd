@@ -18,6 +18,7 @@ format:
 # Set up
 
 ```{r}
+#| message: false
 #| warning: false
 # load packages
 library(tidyverse) 
@@ -54,6 +55,8 @@ Biological narrative: Average nitrogen load (kg year$^{-1}$) differs among sourc
 ## a. Cleaning and summarizing
 
 ```{r}
+#| message: false
+#| warning: false
 sst_clean <- sst |> # start with df
   mutate( # use mutate the create year and month from date
     year = year(date), # create year column
@@ -134,6 +137,7 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 ## e. Run the models
 
 ```{r}
+#| message: false
 #| warning: false
 # run model
 model0 <- glm(
