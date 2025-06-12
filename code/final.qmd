@@ -9,7 +9,6 @@ output-file: final.html
 toc: true             # Enable table of contents
 toc-float: true       # Make the table of contents float (sticky)
 ---
----
 
 # Github link
 
