@@ -18,6 +18,7 @@ format:
 # Set up
 
 ```{r}
+#| warning: false
 # load packages
 library(tidyverse) 
 library(here) 
