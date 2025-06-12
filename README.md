@@ -36,4 +36,4 @@ All code is in the code folder.
 
 Rendered output
 
-The rendered key is (here)[https://tanveersiingh.github.io/ENVS-193DS_spring-2025_final/code/final.html]
+The rendered key is [here](https://tanveersiingh.github.io/ENVS-193DS_spring-2025_final/code/final.html)
