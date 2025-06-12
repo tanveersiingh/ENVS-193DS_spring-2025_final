@@ -1,5 +1,0 @@
-Manifest file for knb-lter-sbc.161.3.zip created on Thu Jun 05 09:41:12 UTC 2025
-SST_update2023.csv (12356593 bytes)
-knb-lter-sbc.161.3.xml (22908 bytes)
-knb-lter-sbc.161.3.txt (12036 bytes)
-knb-lter-sbc.161.3.report.xml (31151 bytes)

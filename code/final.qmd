@@ -1,7 +1,14 @@
 ---
-title: "final"
+title: "ENVS 193DS Final"
+author: Tanveer Singh
+date: 06/11/2025
 format: html
 editor: visual
+output-file: final.html
+
+toc: true             # Enable table of contents
+toc-float: true       # Make the table of contents float (sticky)
+---
 ---
 
 # Github link
@@ -116,7 +123,7 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 ## d. Table of models
 
 | Model Number | Box Occupancy | Season | Distance to Forest Edge | Model Description |
-|:-----------:|:-----------:|:-----------:|:-----------:|:----------------------|
+|:------------:|:------------:|:------------:|:------------:|:-----------------|
 | 0 | X |  |  | Null model |
 | 1 | X | X | X | Saturated model |
 | 2 | X | X |  | Season only model |
