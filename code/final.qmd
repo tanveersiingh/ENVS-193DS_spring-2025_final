@@ -1,13 +1,14 @@
 ---
 title: "ENVS 193DS Final"
-author: Tanveer Singh
-date: 06/11/2025
-format: html
+author: "Tanveer Singh"
+date: 2025-06-11
 editor: visual
 output-file: final.html
 
-toc: true             # Enable table of contents
-toc-float: true       # Make the table of contents float (sticky)
+format:
+  html:
+    toc: true
+    toc-float: true
 ---
 
 # Github link
@@ -29,8 +30,8 @@ library(DHARMa)
 library(MuMIn)
 library(ggeffects)
 # read in data
-sst <- read_csv("./data/SST_update2023.csv")
-nest_boxes <- read_csv("./data/occdist.csv")
+sst <- read_csv(here::here("data", "SST_update2023.csv"))
+nest_boxes <- read_csv(here::here("data", "occdist.csv"))
 ```
 
 # Problem 1. Research writing
