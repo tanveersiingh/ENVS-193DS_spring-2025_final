@@ -12,11 +12,11 @@ editor: visual
 
 ```{r}
 # load packages
-library(tidyverse) # general use
-library(here) # file organization
-library(flextable) # creating tables
-library(janitor) # cleaning data frames
-library(officer) # table formatting
+library(tidyverse) 
+library(here) 
+library(flextable) 
+library(janitor) 
+library(officer) 
 library(dplyr)
 library(lubridate)
 library(DHARMa)
@@ -63,14 +63,14 @@ print(str(sst_clean)) # print the structure of sst_clean
 ## b. Visualize the data
 
 ```{r}
-ggplot(sst_clean,
-       aes(x = month,
-           y = mean_monthly_sst,
-           color = year,
-           group = year)) +
-  geom_point() +
-  geom_line() +
-  scale_color_manual(
+ggplot(sst_clean, # start with clean dataset
+       aes(x = month, # month on x
+           y = mean_monthly_sst, # mean monthly sst on y
+           color = year, # group by color
+           group = year)) + # group by color
+  geom_point() + # add points
+  geom_line() + # connect with line
+  scale_color_manual( # add manual color gradient
     values = c(
       "2018" = "mistyrose",
       "2019" = "lightcoral",
@@ -78,27 +78,27 @@ ggplot(sst_clean,
       "2021" = "firebrick",
       "2022" = "red",
       "2023" = "darkred")) +
-  ylim(NA, 20) +
-  labs(
-    x = "Month",
-    y = "Mean monthly sea surface temperature (°C)",
-    color = "Year") +
-  theme_bw() +
-  theme(
+  ylim(NA, 20) + # get y limit
+  labs( # rename labels
+    x = "Month", 
+    y = "Mean monthly sea surface temperature (°C)", 
+    color = "Year") + 
+  theme_bw() + # add theme
+  theme( # clean up the lines from the theme in the background
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     plot.background = element_rect(fill = "white"),
     panel.background = element_rect(fill = "white"),
-    legend.position = c(0.10, 0.70))
+    legend.position = c(0.10, 0.70)) # change legend position
 ```
 
 # Problem 3. Data analysis
 
 ```{r}
-nest_boxes_clean <- nest_boxes |>
-  clean_names() |>
-  select(box_occupant, season, edge_distance, sp, cs, e, tm) |>
-  mutate(season = as.factor(season))
+nest_boxes_clean <- nest_boxes |> # start with original df
+  clean_names() |> # clean column names
+  select(box_occupant, season, edge_distance, sp, cs, e, tm) |> # select these columns
+  mutate(season = as.factor(season)) # change season to factor.
 ```
 
 ## a. Response variable
@@ -115,14 +115,17 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 
 ## d. Table of models
 
-| Model number \| box occupancy \| season \| distance to forest edge \| model description \|
-
-\|:------------:\|:---:\|:---------------::-------: \|----------------------------- \|\
-\| 0 \| \| \| null model \| \| 1 \| X \| X \| a saturated model. \| \| 2 \| X \| \| Season only model \| \| 3 \| \| X \| Distance to forest edge only model\|
+| Model Number | Box Occupancy | Season | Distance to Forest Edge | Model Description |
+|:-----------:|:-----------:|:-----------:|:-----------:|:----------------------|
+| 0 | X |  |  | Null model |
+| 1 | X | X | X | Saturated model |
+| 2 | X | X |  | Season only model |
+| 3 | X |  | X | Distance to forest edge only model |
 
 ## e. Run the models
 
 ```{r}
+# run model
 model0 <- glm(
   sp ~ 1, # formula
   data = nest_boxes_clean, # data frame
@@ -150,14 +153,17 @@ model3 <- glm(
 ## f. Check the diagnostics
 
 ```{r}
-plot(
-  simulateResiduals(model0))
-plot(
-  simulateResiduals(model1))
-plot(
-  simulateResiduals(model2))
-plot(
-  simulateResiduals(model3))
+# Plot diagnostic residuals for model0 to assess model fit
+plot(simulateResiduals(model0))
+
+# Plot diagnostic residuals for model1 to assess model fit
+plot(simulateResiduals(model1))
+
+# Plot diagnostic residuals for model2 to assess model fit
+plot(simulateResiduals(model2))
+
+# Plot diagnostic residuals for model3 to assess model fit
+plot(simulateResiduals(model3))
 ```
 
 ## g. Select the best model
@@ -174,28 +180,34 @@ The best model, as determined by Akaike’s Information Criterion (AIC), was the
 ## h. Visualize the model predictions
 
 ```{r}
+# Generate predicted values from model1 across edge_distance from 0 to 1100 by 10 meters, for each season
 prediction <- ggpredict(model1, terms = c("edge_distance [0:1100 by=10]", "season"))
 
+# Create a ggplot object using the predictions
 ggplot(prediction,
-       aes(x = x, y = predicted, color = group)) +
-  geom_line(linewidth = 1) +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group), alpha = 0.35) +
-  geom_jitter(data = nest_boxes_clean, aes(x = edge_distance, y = sp, color = season),
-              width = 15, height = 0.5, alpha = 0.4, inherit.aes = FALSE) +
-  ylim(0, 1) +
+       aes(x = x, # x = edge_distance
+           y = predicted, # y = predicted occupancy
+           color = group)) + # color by season (group)
+  geom_line(linewidth = 1) + # add line
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group), alpha = 0.35) + # add ribbon for CI
+  geom_jitter(data = nest_boxes_clean, aes(x = edge_distance, y = sp, color = season), # add jittered data
+              width = 0, height = .5, alpha = 0.4, inherit.aes = FALSE) + # no jittered width, add transparency
+  ylim(0, 1) + # y limit range
   labs(
-    x = "Distance from Forest Edge (m)",
-    y = "Probability of Swift Parrot Occupancy",
+    x = "Distance from Forest Edge (m)", # x label 
+    y = "Probability of Swift Parrot Occupancy", # y label
     color = "Season",
     fill = "Season") +
-  theme_bw() +
-  theme(panel.grid = element_blank()) +
-  scale_color_manual(values = c("2016" = "lightgreen", "2019" = "seagreen")) +
-  scale_fill_manual(values = c("2016" = "lightgreen", "2019" = "seagreen"))
+  theme_bw() + # add theme
+  theme(panel.grid = element_blank()) + # no grid
+  scale_color_manual(values = c("2016" = "darkblue", "2019" = "seagreen")) + # add color
+  scale_fill_manual(values = c("2016" = "darkblue", "2019" = "seagreen")) # add color
 
 ```
 
 ## i. Write a caption for your figure
+
+Figure 1. Predicted probability of Swift Parrot occupancy in relation to distance from forest edge, by season (2016 and 2019). Shaded ribbons represent 95% confidence intervals. Raw data points are jittered for visibility.
 
 ## j. Calculate model predictions
 
@@ -208,6 +220,8 @@ print(model1_predictions)
 ```
 
 ## k. Interpret your results
+
+In both the 2016 and 2019 seasons, my analysis revealed a clear and consistent trend in Swift Parrot nest box occupancy relative to distance from the forest edge. In both years, the probability of occupancy peaked at the forest boundary (0 m) and declined sharply with increasing distance into the open landscape. In 2016, the estimated occupancy probability was 0.48 (95% CI: 0.33–0.64) at 0 m and dropped to 0.12 (95% CI: 0.06–0.24) by 900 m. In 2019, occupancy at the edge was lower at 0.06 (95% CI: 0.03–0.13), but remained higher at 900 m at 0.30 (95% CI: 0.18–0.44). This negative association suggests that Swift Parrots prefer nest boxes situated closer to forested areas. Biologically, this pattern may reflect the species’ reliance on forest resources for foraging, shelter, or protection from predators.
 
 # Problem 4. Affective and exploratory visualizations
 
