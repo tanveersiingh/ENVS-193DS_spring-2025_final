@@ -71,6 +71,7 @@ print(str(sst_clean)) # print the structure of sst_clean
 ## b. Visualize the data
 
 ```{r}
+#| warning: false
 ggplot(sst_clean, # start with clean dataset
        aes(x = month, # month on x
            y = mean_monthly_sst, # mean monthly sst on y
@@ -133,6 +134,7 @@ The two "seasons" compared are in 2016 (when the nest boxes were deployed) and 2
 ## e. Run the models
 
 ```{r}
+#| warning: false
 # run model
 model0 <- glm(
   sp ~ 1, # formula
@@ -188,6 +190,7 @@ The best model, as determined by Akaike’s Information Criterion (AIC), was the
 ## h. Visualize the model predictions
 
 ```{r}
+#| warning: false
 # Generate predicted values from model1 across edge_distance from 0 to 1100 by 10 meters, for each season
 prediction <- ggpredict(model1, terms = c("edge_distance [0:1100 by=10]", "season"))
 
